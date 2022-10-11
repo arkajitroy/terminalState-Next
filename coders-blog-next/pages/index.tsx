@@ -1,9 +1,21 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
+import { AxiosResponse } from "axios";
 
-const Home: NextPage = () => {
+// other components / instances
+import { fetchCategories } from "../http";
+import { ICategory, ICollectionResponse } from "../types";
+
+interface IPropType {
+  categories: {
+    items: ICategory[];
+  };
+}
+
+const Home: NextPage<IPropType> = ({ categories }) => {
+  console.log("Categories", categories);
   return (
     <div>
       <Head>
@@ -12,6 +24,10 @@ const Home: NextPage = () => {
         <link rel="icon" href="/code.ico" />
       </Head>
 
+      {categories.items.map((category) => {
+        return <span key={category.id}>{category.attributes.Title}</span>;
+      })}
+
       <main>
         <h1 className="text-3xl font-normal">
           Welcome to the space of Million Coders
@@ -19,6 +35,19 @@ const Home: NextPage = () => {
       </main>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const { data: categories }: AxiosResponse<ICollectionResponse<ICategory[]>> =
+    await fetchCategories();
+  console.log("Categories", categories);
+  return {
+    props: {
+      categories: {
+        items: categories.data,
+      },
+    },
+  };
 };
 
 export default Home;
