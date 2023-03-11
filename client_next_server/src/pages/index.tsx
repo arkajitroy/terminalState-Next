@@ -5,13 +5,15 @@ import { fetchArticles, fetchCategories } from "@/utils/api";
 import QueryString from "qs";
 
 // types / interfaces
-import { ICollectionResponse } from "@/Interface/CollectionResponse.interface";
-import { ICategory } from "@/Interface/Category.interface";
-import { IArticle } from "@/Interface/Article.interface";
+import { ICollectionResponse } from "@/types/interface/CollectionResponse.interface";
+import { ICategory } from "@/types/interface/Category.interface";
+import { IArticle } from "@/types/interface/Article.interface";
 
 // components
 import Tab from "@/components/Tab";
 import ArticleList from "@/components/ArticleList";
+import Pagination from "@/components/Pagination";
+import { IPagination } from "@/types/interface/Pagination.interface";
 
 // PropType Interface
 export interface IPropType {
@@ -20,10 +22,12 @@ export interface IPropType {
   };
   articles: {
     items: IArticle[];
+    pagination: IPagination;
   };
 }
 
 const Home: NextPage<IPropType> = ({ categories, articles }: IPropType) => {
+  const { page, pageCount } = articles.pagination;
   return (
     <div>
       <Head>
@@ -41,14 +45,22 @@ const Home: NextPage<IPropType> = ({ categories, articles }: IPropType) => {
 
       {/* ARTICLES */}
       <ArticleList articles={articles} />
+
+      <Pagination page={page} pageCount={pageCount} />
     </div>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+// server-side rendering
+
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const options = {
     populate: ["author.avatar"],
     sort: ["id:desc"],
+    pagination: {
+      page: query.page ? query.page : 1,
+      pageSize: 1, // default : 25 (in strapi)
+    },
   };
   const queryString = QueryString.stringify(options);
   console.log("queryString ", queryString);

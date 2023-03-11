@@ -1,9 +1,13 @@
-import { IArticle } from "@/Interface/Article.interface";
+import { IArticle } from "@/types/interface/Article.interface";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { formatDate } from "@/utils/formatDate";
-import { ICategory } from "@/Interface/Category.interface";
+import { ICategory } from "@/types/Category.interface";
+import { AxiosResponse } from "axios";
+import { ICollectionResponse } from "@/types/CollectionResponse.interface";
+import { fetchCategories } from "@/utils/api";
+import { GetServerSideProps } from "next";
 
 interface IPropType {
   article: IArticle;
@@ -25,7 +29,7 @@ const BlogCard = ({ article }: IPropType) => {
         <h1 className="text-xl mb-2 text-gray-600 font-bold hover:decoration-2 hover:underline hover:cursor-pointer">
           {article.attributes.title}
         </h1>
-        <span className="bg-blue-800 text-white w-fit py-0.5 pl-3 pr-3 rounded-full"></span>
+
         {/* INFORMATION-SECTION */}
         <div className="flex items-center my-4">
           <div className="mr-4 rounded-lg overflow-hidden flex items-center justify-center">

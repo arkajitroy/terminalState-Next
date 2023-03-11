@@ -1,4 +1,4 @@
-import { ICategory } from "@/Interface/Category.interface";
+import { ICategory } from "@/types/interface/Category.interface";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -32,10 +32,11 @@ const Tab = ({ categories }: IPropType) => {
             }`
           }
         >
-          <Link href="#">Recent</Link>
+          <Link href="/">Recent</Link>
         </li>
         {categories.items.map((category: any) => (
           <li
+            key={category.attributes.id}
             className={
               "mr-6 pb-4 border-b-4 rounded-sm " +
               `${
@@ -44,7 +45,6 @@ const Tab = ({ categories }: IPropType) => {
                   : "border-white text-gray-400"
               }`
             }
-            key={category.attributes.id}
           >
             <Link href={`/category/${category.attributes.slug}`}>
               {category.attributes.title}
