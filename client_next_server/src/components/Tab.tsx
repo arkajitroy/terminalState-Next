@@ -6,17 +6,14 @@ interface IPropType {
   categories: {
     items: ICategory[];
   };
+  handleOnSearch: (query: string) => void;
 }
 
-const Tab = ({ categories }: IPropType) => {
+const Tab = ({ categories, handleOnSearch }: IPropType) => {
   const router = useRouter();
 
   function isActiveLink(category: ICategory) {
     return category.attributes.slug === router.query.category;
-  }
-
-  function handleOnSearch(query: string) {
-    console.log("Handle on Search");
   }
 
   return (
@@ -36,7 +33,7 @@ const Tab = ({ categories }: IPropType) => {
         </li>
         {categories.items.map((category: any) => (
           <li
-            key={category.attributes.id}
+            key={category.id}
             className={
               "mr-6 pb-4 border-b-4 rounded-sm " +
               `${

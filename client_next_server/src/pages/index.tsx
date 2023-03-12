@@ -14,6 +14,9 @@ import Tab from "@/components/Tab";
 import ArticleList from "@/components/ArticleList";
 import Pagination from "@/components/Pagination";
 import { IPagination } from "@/types/interface/Pagination.interface";
+import { useRouter } from "next/router";
+import { IQueryOptions } from "@/Interface/QueryOptions.interface";
+import { debounce } from "@/utils/debounce";
 
 // PropType Interface
 export interface IPropType {
@@ -27,7 +30,12 @@ export interface IPropType {
 }
 
 const Home: NextPage<IPropType> = ({ categories, articles }: IPropType) => {
+  const router = useRouter();
   const { page, pageCount } = articles.pagination;
+  const handleSearch = (query: string) => {
+    router.push(`/?search=${query}`);
+  };
+
   return (
     <div>
       <Head>
@@ -37,7 +45,10 @@ const Home: NextPage<IPropType> = ({ categories, articles }: IPropType) => {
       </Head>
 
       {/* CATEGORIES-TABS */}
-      <Tab categories={categories} />
+      <Tab
+        categories={categories}
+        handleOnSearch={debounce(handleSearch, 500)}
+      />
 
       <h1 className="text-3xl font-normal">
         Welcome to the space of Million Coders
@@ -54,14 +65,24 @@ const Home: NextPage<IPropType> = ({ categories, articles }: IPropType) => {
 // server-side rendering
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const options = {
+  const options: Partial<IQueryOptions> = {
+    // Partial will make the properties optional
     populate: ["author.avatar"],
     sort: ["id:desc"],
     pagination: {
-      page: query.page ? query.page : 1,
+      page: query.page ? +query.page : 1,
       pageSize: 1, // default : 25 (in strapi)
     },
   };
+
+  if (query.search) {
+    options.filters = {
+      Title: {
+        $contains: query.search,
+      },
+    };
+  }
+
   const queryString = QueryString.stringify(options);
   console.log("queryString ", queryString);
 
