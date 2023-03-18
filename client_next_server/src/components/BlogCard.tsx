@@ -3,17 +3,10 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { formatDate } from "@/utils/formatDate";
-import { ICategory } from "@/types/Category.interface";
-import { AxiosResponse } from "axios";
-import { ICollectionResponse } from "@/types/CollectionResponse.interface";
-import { fetchCategories } from "@/utils/api";
-import { GetServerSideProps } from "next";
 
 interface IPropType {
   article: IArticle;
 }
-
-const BACKEND_URL = process.env.API_BASE_URL;
 
 const BlogCard = ({ article }: IPropType) => {
   const AUTHOR_IMAGE =
@@ -25,7 +18,7 @@ const BlogCard = ({ article }: IPropType) => {
 
   return (
     <>
-      <Link href="#">
+      <Link href={`/article/${article.attributes.slug}`}>
         <h1 className="text-xl mb-2 text-gray-600 font-bold hover:decoration-2 hover:underline hover:cursor-pointer">
           {article.attributes.title}
         </h1>

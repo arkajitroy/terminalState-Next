@@ -71,7 +71,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     sort: ["id:desc"],
     pagination: {
       page: query.page ? +query.page : 1,
-      pageSize: 1, // default : 25 (in strapi)
+      pageSize: 4, // default : 25 (in strapi)
     },
   };
 

@@ -1,9 +1,4 @@
 import { IArticle } from "@/types/interface/Article.interface";
-import { ICategory } from "@/types/Category.interface";
-import { ICollectionResponse } from "@/types/CollectionResponse.interface";
-import { fetchCategories } from "@/utils/api";
-import { AxiosResponse } from "axios";
-import { GetServerSideProps } from "next";
 import BlogCard from "./BlogCard";
 import BlogCardImage from "./BlogCardImage";
 

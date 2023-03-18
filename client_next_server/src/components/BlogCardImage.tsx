@@ -1,6 +1,4 @@
 import { IArticle } from "@/types/interface/Article.interface";
-import { IAuthor } from "@/types/interface/Author.interface";
-import { ICategory } from "@/types/Category.interface";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
