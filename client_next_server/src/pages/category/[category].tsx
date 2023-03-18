@@ -1,19 +1,22 @@
 import React from "react";
 import Head from "next/head";
-import Tab from "@/components/Tab";
+import QueryString from "qs";
 import { GetServerSideProps } from "next";
 import { AxiosResponse } from "axios";
-import { ICollectionResponse } from "@/types/interface/CollectionResponse.interface";
-import { ICategory } from "@/types/interface/Category.interface";
-import { fetchArticles, fetchCategories } from "@/utils/api";
-import { IPagination } from "@/types/interface/Pagination.interface";
-import QueryString from "qs";
-import { IArticle } from "@/types/interface/Article.interface";
+import { useRouter } from "next/router";
+
+import Tab from "@/components/Tab";
 import ArticleList from "@/components/ArticleList";
+import Pagination from "@/components/Pagination";
+
 import { textFromSlug } from "@/utils/textFromSlug";
 import { initialCapitalize } from "@/utils/initialCapitalize";
-import Pagination from "@/components/Pagination";
-import { useRouter } from "next/router";
+import { fetchArticles, fetchCategories } from "@/utils/api";
+
+import { IArticle } from "@/types/interface/Article.interface";
+import { IPagination } from "@/types/interface/Pagination.interface";
+import { ICategory } from "@/types/interface/Category.interface";
+import { ICollectionResponse } from "@/types/interface/CollectionResponse.interface";
 
 interface IPropType {
   categories: {
