@@ -15,7 +15,7 @@ import ArticleList from "@/components/ArticleList";
 import Pagination from "@/components/Pagination";
 import { IPagination } from "@/types/interface/Pagination.interface";
 import { useRouter } from "next/router";
-import { IQueryOptions } from "@/Interface/QueryOptions.interface";
+import { IQueryOptions } from "@/types/interface/QueryOptions.interface";
 import { debounce } from "@/utils/debounce";
 
 // PropType Interface
